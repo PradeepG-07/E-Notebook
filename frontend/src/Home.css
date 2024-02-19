@@ -1,0 +1,37 @@
+.bgmh {
+   background-color: #282828;
+   min-height: 60vh;
+}
+
+.bgmain {
+   background-color: #282828;
+}
+
+@media screen and (max-width: 768px) {
+   .card-box {
+      flex-direction: column;
+   }
+
+   .card-img,
+   .card-body {
+      width: 100% !important;
+   }
+
+   .card-img {
+      height: 60vh;
+   }
+
+   .card-body {
+      padding: 16px 0px !important;
+   }
+}
+
+@media screen and (min-width: 1200px) {
+   h2 {
+      font-size: 40px;
+   }
+
+   p {
+      font-size: 20px;
+   }
+}

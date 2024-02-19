@@ -1,0 +1,19 @@
+.sbtn{
+    width:40px ;
+    height:40px;
+    border-radius:50%;
+    outline: none;
+    border: 2px solid white;
+    background-color: #282828;
+    display: grid;
+    place-items: center;
+    color: white;
+    font-size: 25px;
+    font-weight: bolder;
+    /* padding: 5px; */
+}
+.sbtn:hover{
+    background-color: #ffffff;
+    color: black;
+    border: 2px solid rgb(106, 236, 106);
+}
