@@ -1,5 +1,5 @@
-const mongoose =require("mongoose");
-const schema= new mongoose.Schema({
+import mongoose from "mongoose";
+const Noteschema= new mongoose.Schema({
     user:{
         type: mongoose.Schema.Types.ObjectId,
         ref: "user"
@@ -21,5 +21,5 @@ const schema= new mongoose.Schema({
         default: Date.now 
     }
 })
-const Notes=mongoose.model("note",schema);
-module.exports=Notes;
+const NotesModel=mongoose.model("note",Noteschema);
+export default NotesModel;
