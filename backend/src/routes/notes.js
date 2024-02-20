@@ -15,7 +15,7 @@ router.get("/fetchallnotes", AuthenticateUser, NotesController.fetchNotes);
 router.post("/addnotes", AuthenticateUser,
     [
         body('title', "Title cannot be empty").trim().notEmpty().isLength({min:5, max:30}),
-        body('description', "Description cannot be empty").trim().notEmpty().isLength({min:5})
+        body('description', "Description cannot be empty").trim().notEmpty()
     ],
     NotesController.addNote);
 
@@ -23,7 +23,7 @@ router.post("/addnotes", AuthenticateUser,
 router.put("/updatenotes/:id", AuthenticateUser,
     [
         body('title', "Title cannot be empty").trim().notEmpty().isLength({min:5, max:30}),
-        body('description', "Description cannot be empty").trim().notEmpty().isLength({min:5})
+        body('description', "Description cannot be empty").trim().notEmpty()
     ],
     NotesController.updateNote);
 
