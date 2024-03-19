@@ -6,13 +6,16 @@ import { Navigate } from 'react-router-dom';
 // import FormModalToUpdate from "./FormModalToUpdate"
 function Notes(props) {
   const context = useContext(NoteContext);
+  const [isLoading, setIsLoading] = useState(false);
   const { notes, deleteNote, fetchNotes, editNote } = context;
   const [cnote, setCnote] = useState({ id: "", title: "", description: "", tag: "" })
   const refClose = useRef();
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     // console.log("editing id handle submit", cnote);
-    editNote(cnote.title, cnote.description, cnote.tag, cnote.id)
+    setIsLoading(true);
+    await editNote(cnote.title, cnote.description, cnote.tag, cnote.id);
+    setIsLoading(false);
     refClose.current.click();
     setTimeout(() => {
       window.scrollTo(0, 0)
@@ -64,7 +67,16 @@ function Notes(props) {
                       <input type="text" className="form-control" autoComplete="off" id="tag" name='tag' value={cnote.tag} placeholder="Give a tag here" aria-describedby="emailHelp" onChange={handleChange} />
                     </div>
                     <div className="mb-3">
-                      <button type="submit" className="btn btn-primary me-3">Edit Note</button>
+                      <button type="submit" className="btn btn-primary me-3">
+                        {
+                           isLoading?
+                           <div className="spinner-border text-secondary" style={{width: "1.5rem", height: "1.5rem"}} role="status" >
+                               <span className="visually-hidden">Loading...</span>
+                           </div>
+                           :
+                           <span>Edit Note</span>
+                        }
+                      </button>
                       <button type="button" className="btn btn-secondary" ref={refClose} data-bs-dismiss="modal">Close</button>
                     </div>
                   </form>

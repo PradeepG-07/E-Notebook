@@ -40,7 +40,7 @@ function Notestate(props) {
       const json = await response.json();
       // console.log(json);
       if(json.success){
-        setNotes([...notes,json])
+        setNotes([...notes,json.notes]);
         props.showAlert("Notes added successfully","success");
       }
       else{

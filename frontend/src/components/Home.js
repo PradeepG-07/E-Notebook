@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React,{Suspense, useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import notebookimg from "../images/notebook.jpg"
 import "../Home.css"
@@ -11,7 +11,9 @@ function Home() {
       <h1 className='text-center bgmain p-4 rounded border border-warning'>Welcome to E-Notebook</h1>
       <div className="d-flex p-3 mt-4 rounded card-box bgmh border border-danger">
         <div className="w-25 card-img">
+          <Suspense fallback={<Loading />}>
           <img src={notebookimg} className='w-100 h-100 rounded' alt="..." />
+        </Suspense>
         </div>
         <div className="card-body ps-4 pt-2 w-75">
           <p className="card-text">Are you tired of scattered notes, forgotten ideas, and the limitations of traditional notebooks? Look no further, because E-Notebook is here to revolutionize the way you take and manage your notes!</p>
@@ -45,6 +47,10 @@ function Home() {
       </div>
     </>
   )
+}
+
+function Loading(){
+  return <p>Loading...</p>
 }
 
 export default Home
