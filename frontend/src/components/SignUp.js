@@ -5,7 +5,8 @@ import { useNavigate,Link } from 'react-router-dom';
 function SignUp(props) {
     useEffect(() => {
         window.scrollTo(0, 0)
-      }, [])
+      }, []);
+    const [isLoading, setIsLoading] = useState(false);
     const context = useContext(AuthContext);
     const navigate=useNavigate();
     const [credentials, setCredentials] = useState({name:"",email:"",password:"",cpassword:""})
@@ -16,9 +17,18 @@ function SignUp(props) {
     const handleSignup=async(e)=>{
         e.preventDefault();
         // console.log(props);
-       const successfullSignup= await signUp(credentials)
-       successfullSignup?props.showAlert("Account Created Successfully","success"):props.showAlert(`Account already exists with ${credentials.email}. Login to continue`,"info")
-        navigate("/notes")
+        setIsLoading(true);
+       const response= await signUp(credentials);
+       setIsLoading(false);
+       console.log(response);
+       if(response.success)
+       {
+        props.showAlert("Account Created Successfully","success");
+       }
+        else{
+            response.exists?props.showAlert(`Account already exists with ${credentials.email}. Login to continue`,"info"):props.showAlert(`Failed to create an account. Please try again.`,"info")
+        }
+        navigate("/notes");
     }
     return (
         <form className='p-3 rounded border border-warning' onSubmit={handleSignup} style={{ backgroundColor: "#282828"}} autoComplete="on">
@@ -39,7 +49,16 @@ function SignUp(props) {
                 <label htmlFor="cpassword" className="form-label">Confirm Password</label>
                 <input type="password" className="form-control" id="cpassword" name='cpassword' minLength={8} maxLength={15} onChange={handleChange} required autoComplete="on"/>
             </div>
-            <button type="submit" className="btn btn-primary">Create account</button>
+            <button type="submit" className="btn btn-primary" style={{minWidth: "80px",fontSize:"18px",pointerEvents: isLoading?"none":"auto"}}>
+            {
+                isLoading?
+                <div className="spinner-border text-secondary" style={{width: "1.5rem", height: "1.5rem"}} role="status" >
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+                :
+                <span>Create an Account</span>
+            }
+            </button>
             <div className="d-flex p-2 justify-content-end ">
             <span>Already have an account?&nbsp;<Link className='text-success' to="/login">Login</Link></span>
         </div>

@@ -10,8 +10,8 @@ export default function Navbar(props) {
     const handleLogout=()=>{
         localStorage.removeItem('token');
         setLoggedin(false);
-        props.showAlert("Logged out successfully","success")
-        navigate("/login")
+        props.showAlert("Logged out successfully","success");
+        navigate("/login");
     }
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -40,7 +40,8 @@ export default function Navbar(props) {
                                 <li><Link className="dropdown-item p-2 px-4" to="/login">Login</Link></li>
                             </ul>
                         </li>}
-                        {loggedin&&<li className="nav-item list-unstyled">
+                        {loggedin&&<li className="nav-item list-unstyled d-flex gap-2 align-items-center">
+                        <span style={{whiteSpace: "nowrap"}}>Logged in as: {localStorage.getItem('name')}</span>
                         <Link className="dropdown-item" to="/login" onClick={handleLogout}><button className="btn btn-outline-success">Logout</button>  </Link>
                         </li>}
                     </div>

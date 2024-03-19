@@ -39,8 +39,13 @@ function Notestate(props) {
       });
       const json = await response.json();
       // console.log(json);
-      setNotes([...notes,json])
-      props.showAlert("Notes added successfully","success")
+      if(json.success){
+        setNotes([...notes,json])
+        props.showAlert("Notes added successfully","success");
+      }
+      else{
+        props.showAlert(json.message,"info");
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -55,8 +60,13 @@ function Notestate(props) {
         },
       });
       const json = await response.json();
-      setNotes(notes.filter((note)=>{return note._id!==noteid}))
-      props.showAlert("Notes deleted successfully","success")
+      if(json.success){
+        setNotes(notes.filter((note)=>{return note._id!==noteid}))
+        props.showAlert("Notes deleted successfully","success")
+      }
+      else{
+        props.showAlert(json.message,"info");
+      }
     } catch (error) {
       console.log(error.message);
     }
@@ -73,20 +83,24 @@ function Notestate(props) {
         body: JSON.stringify(updatednote)
       });
       const json = await response.json();
-
-      let newNotes = JSON.parse(JSON.stringify(notes))
-      // Logic to edit in client
-      for (let index = 0; index < newNotes.length; index++) {
-        const element = newNotes[index];
-        if (element._id === id) {
-          newNotes[index].title = title;
-          newNotes[index].description = description;
-          newNotes[index].tag = tag; 
-          break; 
-        }
-      }  
-      setNotes(newNotes);
-      props.showAlert("Notes updated successfully","success")
+      if(json.success){
+        let newNotes = JSON.parse(JSON.stringify(notes))
+        // Logic to edit in client
+        for (let index = 0; index < newNotes.length; index++) {
+          const element = newNotes[index];
+          if (element._id === id) {
+            newNotes[index].title = title;
+            newNotes[index].description = description;
+            newNotes[index].tag = tag; 
+            break; 
+          }
+        }  
+        setNotes(newNotes);
+        props.showAlert("Notes updated successfully","success");
+    }
+      else{
+        props.showAlert(json.message,"info");
+      }
     } catch (error) {
       console.log(error.message);
     }

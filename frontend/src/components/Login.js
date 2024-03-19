@@ -1,11 +1,12 @@
-import React, { useContext,useRef,useEffect } from 'react'
+import React, { useContext,useRef,useEffect, useState } from 'react'
 import { AuthContext } from '../contexts/AuthState'
 import { useNavigate,Link } from 'react-router-dom';
 
 function Login(props) {
     useEffect(() => {
         window.scrollTo(0, 0)
-      }, [])
+      }, []);
+    const [isLoading, setIsLoading] = useState(false);
     const context = useContext(AuthContext);
     const emailRef = useRef(null);
     const passwordRef = useRef(null);
@@ -13,16 +14,18 @@ function Login(props) {
     const navigate=useNavigate();
     const handleSubmit=async(e)=>{
         e.preventDefault();
-        // console.log(props);
+        setIsLoading(true);
         const email=emailRef.current.value;
         const password=passwordRef.current.value;
         let successfullLogin=await login(email,password);
+        setIsLoading(false);
         if(successfullLogin){
-            props.showAlert("Logged in successfully","success")
-            navigate("/notes")
+            props.showAlert("Logged in successfully","success");
+            // await getUserDetails();
+            navigate("/notes");
         }
         else{
-            props.showAlert("Invalid Credentials","info")
+            props.showAlert("Invalid Credentials","info");
         }
         
     }
@@ -38,7 +41,16 @@ function Login(props) {
                 <label htmlFor="password" className="form-label">Password</label>
                 <input type="password" name='password' className="form-control" id="password"  ref={passwordRef} required autoComplete="on"/>
             </div>
-            <button type="submit" className="btn btn-primary">Login</button>
+            <button type="submit" className="btn btn-primary" style={{minWidth: "80px",fontSize:"18px",pointerEvents: isLoading?"none":"auto"}}>
+            {
+                isLoading?
+                <div className="spinner-border text-secondary" style={{width: "1.5rem", height: "1.5rem"}} role="status" >
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+                :
+                <span>Login</span>
+            }
+            </button>
         <div className="d-flex p-2 justify-content-end flex-wrap">
             <span>New to E-notebook?&nbsp;</span><Link to="/signup">Create Account</Link>
         </div>

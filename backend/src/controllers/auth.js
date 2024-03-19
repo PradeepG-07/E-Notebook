@@ -24,7 +24,8 @@ export const signup= async (req, res) => {
         const user=await UserModel.findOne({"email":data.email});
         if(user)
         {
-            return res.status(400).send({success,message:"User Already exists with this email. Please Login"});
+            const exists=true;
+            return res.status(400).send({exists,success,message:"User Already exists with this email. Please Login"});
         }
         // Hashing the password
         const securedPassword=await bcrypt.hash(data.password,bcrypt.genSaltSync(10))

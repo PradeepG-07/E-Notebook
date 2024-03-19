@@ -2,12 +2,11 @@ import React, { useContext, useEffect, useState, useRef } from 'react'
 import { NoteContext } from '../contexts/Notestate'
 import NoteItem from './NoteItem';
 import AddNote from './AddNote';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 // import FormModalToUpdate from "./FormModalToUpdate"
 function Notes(props) {
   const context = useContext(NoteContext);
   const { notes, deleteNote, fetchNotes, editNote } = context;
-  const navigate = useNavigate()
   const [cnote, setCnote] = useState({ id: "", title: "", description: "", tag: "" })
   const refClose = useRef();
   const handleSubmit = (e) => {
@@ -23,7 +22,7 @@ function Notes(props) {
     setCnote({ ...cnote, [e.target.name]: e.target.value })
   }
   useEffect(() => {
-    console.log("notes");
+    // console.log("notes");
     if (!localStorage.getItem('token')) {
       props.showAlert("Please login/signup to continue", "warning")
     }
